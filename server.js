@@ -2,7 +2,7 @@
 const express = require('express')
 const app = express()
 const api = require('./server/routes/api')
-const dataBaseManager = require('./server/services/dataBaseamanger')
+const dataBaseManager = require('./server/services/databaseManger')
 
 dataBaseManager.connect()
 
