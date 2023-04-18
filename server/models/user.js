@@ -1,17 +1,30 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  firstName: {
+//   firstName: {
+//     type: String,
+//     required: true
+//   },
+//   lastName: {
+//     type: String,
+//     required: true
+//   },
+
+  userName: {
     type: String,
     required: true
   },
-  lastName: {
+  email: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
+    match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
   },
+
   password: {
     type: String,
-    required: true
+    required: true,
+    minlength: 5,
   },
   groups: [{
     type: mongoose.Schema.Types.ObjectId,
