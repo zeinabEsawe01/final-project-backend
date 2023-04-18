@@ -1,6 +1,7 @@
 // Server setup
 const express = require('express')
 const app = express()
+require("dotenv").config(); 
 const api = require('./server/routes/api')
 const dataBaseManager = require('./server/services/databaseManger')
 
@@ -8,6 +9,7 @@ dataBaseManager.connect()
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')
