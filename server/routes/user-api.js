@@ -44,5 +44,26 @@ router.post('/',async function (req,res) {
 })
 
 
+router.post("/signup", async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10)
+    const user = new User({
+      userName: req.body.userName,
+      email: req.body.email,
+      password: hashedPassword,
+      groups: req.body.groups
+    });
+    user.save();
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET)
+    res.json({ token })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: "Server error" })
+  }
+})
+
+
+
+
 
 module.exports = router
