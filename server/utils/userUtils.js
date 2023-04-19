@@ -1,3 +1,6 @@
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
 
 const User = require('../models/user')
 
@@ -10,11 +13,17 @@ async function doesUserExist(userObj) {
 }
 
 async function createUser(userObj) {
-    let newUser = User (userObj)
-    let doesExist = await doesUserExist(newUser)
+    const hashedPassword = await bcrypt.hash(userObj.password, 10)
+    const user = new User({
+        userName: userObj.userName,
+        email: userObj.email,
+        password: hashedPassword,
+        groups: []
+      });
+    let doesExist = await doesUserExist(user)
     if (!doesExist) {
-        newUser.save()
-        return newUser
+        user.save()
+        return user
     }
     return null
 }

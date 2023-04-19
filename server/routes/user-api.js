@@ -3,8 +3,8 @@ const router = express.Router()
 const bcrypt = require('bcryptjs')
 const User = require('../models/user')
 const userUtils = require('../utils/userUtils')
+const jwt = require('jsonwebtoken')
 
-const secretKey = 'my_secret_key'
 
 function authenticateUser(username, password) {
     const user = User.find({
@@ -21,7 +21,7 @@ function authenticateUser(username, password) {
 }
 
 function generateAccessToken(user) {
-    return jwt.sign(user, secretKey)
+    return jwt.sign(user, process.env.JWT_SECRET)
 }
 
 router.post('/login', (req, res) => {
@@ -34,36 +34,16 @@ router.post('/login', (req, res) => {
     res.send({ accessToken })
 })
 
-router.post('/',async function (req,res) {
+router.post('/signup',async function (req,res) {
   let newUser = await userUtils.createUser(req.body)
+  const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET)
+    // res.json({ token }) 
   if (newUser) {
     res.status(201).send(`the user ${newUser.userName} is created`)
   }else{
     res.status(409).send(`user is alraedy exist`)
   }
 })
-
-
-router.post("/signup", async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    const user = new User({
-      userName: req.body.userName,
-      email: req.body.email,
-      password: hashedPassword,
-      groups: req.body.groups
-    });
-    user.save();
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET)
-    res.json({ token })
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({ error: "Server error" })
-  }
-})
-
-
-
 
 
 module.exports = router
