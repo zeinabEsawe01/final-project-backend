@@ -1,15 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const userUtils = require('../utils/userUtils')
 
 const secretKey = 'my_secret_key'
 
-function authenticateUser(username, password) {
-    const user = User.find({
+async function authenticateUser(username, password) {
+    const user = await User.findOne({
       userName:username
-    })[0]
+    })
     if (!user) {
       return null
     }
@@ -24,9 +25,9 @@ function generateAccessToken(user) {
     return jwt.sign(user, secretKey)
 }
 
-router.post('/login', (req, res) => {
-    const { username, password } = req.body
-    const user = authenticateUser(username, password)
+router.post('/login',async (req, res) => {
+    const { userName, password } = req.body
+    const user = await authenticateUser(userName, password)
     if (!user) {
       return res.status(401).send({ message: 'Invalid username or password' })
     }
