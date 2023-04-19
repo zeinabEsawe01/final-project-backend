@@ -4,8 +4,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const userUtils = require('../utils/userUtils')
+const jwt = require('jsonwebtoken')
 
-const secretKey = 'my_secret_key'
 
 async function authenticateUser(username, password) {
     const user = await User.findOne({
@@ -22,7 +22,7 @@ async function authenticateUser(username, password) {
 }
 
 function generateAccessToken(user) {
-    return jwt.sign(user, secretKey)
+    return jwt.sign(user, process.env.JWT_SECRET)
 }
 
 router.post('/login',async (req, res) => {
@@ -35,15 +35,16 @@ router.post('/login',async (req, res) => {
     res.status(201).send({ accessToken })
 })
 
-router.post('/',async function (req,res) {
+router.post('/signup',async function (req,res) {
   let newUser = await userUtils.createUser(req.body)
+  const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET)
+    // res.json({ token }) 
   if (newUser) {
     res.status(201).send(`the user ${newUser.userName} is created`)
   }else{
     res.status(409).send(`user is alraedy exist`)
   }
 })
-
 
 
 module.exports = router
