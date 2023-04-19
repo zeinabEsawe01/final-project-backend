@@ -30,7 +30,7 @@ router.post('/login', (req, res) => {
       return res.status(401).send({ message: 'Invalid username or password' })
     }
     const accessToken = generateAccessToken(user)
-    res.send({ accessToken })
+    res.status(201).send({ accessToken })
 })
 
 module.exports = router
