@@ -2,7 +2,9 @@
 const express = require('express')
 const app = express()
 require("dotenv").config(); 
-const api = require('./server/routes/api')
+const userApi = require('./server/routes/user-api')
+const groupApi = require('./server/routes/group-api')
+
 const dataBaseManager = require('./server/services/databaseManger')
 
 dataBaseManager.connect()
@@ -19,7 +21,9 @@ app.use(function (req, res, next) {
     next()
 })
 
-app.use('/', api)
+app.use('/user', userApi)
+app.use('/group', groupApi)
+
 
 const PORT = 4800
 app.listen(process.env.PORT || PORT, function () {
