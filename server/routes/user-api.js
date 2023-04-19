@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
 const User = require('../models/user')
+const userUtils = require('../utils/userUtils')
 
 const secretKey = 'my_secret_key'
 
@@ -32,5 +33,16 @@ router.post('/login', (req, res) => {
     const accessToken = generateAccessToken(user)
     res.status(201).send({ accessToken })
 })
+
+router.post('/',async function (req,res) {
+  let newUser = await userUtils.createUser(req.body)
+  if (newUser) {
+    res.status(201).send(`the user ${newUser.userName} is created`)
+  }else{
+    res.status(409).send(`user is alraedy exist`)
+  }
+})
+
+
 
 module.exports = router
