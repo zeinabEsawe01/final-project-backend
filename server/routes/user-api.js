@@ -22,13 +22,12 @@ async function authenticateUser(username, password) {
 }
 
 function generateAccessToken(user) {
-  console.log(user);
     return jwt.sign(user, process.env.JWT_SECRET)
 }
 
 router.post('/login',async (req, res) => {
-    const { userName, password } = req.body
-    const user = await authenticateUser(userName, password)
+    const { username, password } = req.body
+    const user = await authenticateUser(username, password)
     if (!user) {
       return res.status(401).send({ message: 'Invalid username or password' })
     }
@@ -37,7 +36,6 @@ router.post('/login',async (req, res) => {
 })
 
 router.post('/signup',async function (req,res) {
-  console.log(req.body);
   let newUser = await userUtils.createUser(req.body)
   if (newUser) {
     const accessToken = generateAccessToken({...newUser})
