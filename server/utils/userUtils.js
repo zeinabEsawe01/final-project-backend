@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 
 async function doesUserExist(userObj) {
-    let userData = await User.find({userName : userObj['userName']})
+    let userData = await User.find({email : userObj['email']})
     if (userData.length > 0) {
         return true
     }
