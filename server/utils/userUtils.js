@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 
 async function doesUserExist(userObj) {
-    let userData = await User.find({email : userObj['email']})
+    console.log(userObj);
+    let userData = await User.find({userName : userObj['userName']})
     if (userData.length > 0) {
         return true
     }
@@ -15,11 +16,11 @@ async function doesUserExist(userObj) {
 async function createUser(userObj) {
     const hashedPassword = await bcrypt.hash(userObj.password, 10)
     const user = new User({
-        userName: userObj.username,
+        userName: userObj['userName'],
         email: userObj.email,
         password: hashedPassword,
         groups: []
-      });
+    });
     let doesExist = await doesUserExist(user)
     if (!doesExist) {
         user.save()

@@ -39,8 +39,6 @@ router.post('/login',async (req, res) => {
 router.post('/signup',async function (req,res) {
   console.log(req.body);
   let newUser = await userUtils.createUser(req.body)
-  // const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET)
-    // res.json({ token }) 
   if (newUser) {
     const accessToken = generateAccessToken({...newUser})
     res.status(201).send({ accessToken })
