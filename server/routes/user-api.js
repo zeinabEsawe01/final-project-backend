@@ -22,6 +22,7 @@ async function authenticateUser(username, password) {
 }
 
 function generateAccessToken(user) {
+  console.log(user);
     return jwt.sign(user, process.env.JWT_SECRET)
 }
 
@@ -31,7 +32,7 @@ router.post('/login',async (req, res) => {
     if (!user) {
       return res.status(401).send({ message: 'Invalid username or password' })
     }
-    const accessToken = generateAccessToken(user)
+    const accessToken = generateAccessToken({...user})
     res.status(201).send({ accessToken })
 })
 
@@ -41,7 +42,7 @@ router.post('/signup',async function (req,res) {
   // const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET)
     // res.json({ token }) 
   if (newUser) {
-    const accessToken = generateAccessToken(newUser)
+    const accessToken = generateAccessToken({...newUser})
     res.status(201).send({ accessToken })
   }else{
     res.status(409).send(`user is alraedy exist`)

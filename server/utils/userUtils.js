@@ -15,7 +15,7 @@ async function doesUserExist(userObj) {
 async function createUser(userObj) {
     const hashedPassword = await bcrypt.hash(userObj.password, 10)
     const user = new User({
-        userName: userObj.userName,
+        userName: userObj.username,
         email: userObj.email,
         password: hashedPassword,
         groups: []
