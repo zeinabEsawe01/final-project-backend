@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const userUtils = require('../utils/userUtils')
-const jwt = require('jsonwebtoken')
+
 
 
 async function authenticateUser(username, password) {
