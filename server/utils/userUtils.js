@@ -12,8 +12,10 @@ async function doesUserExist(userObj) {
     return false
 }
 
+
 async function createUser(userObj) {
     const hashedPassword = await bcrypt.hash(userObj.password, 10)
+    console.log(userObj);
     const user = new User({
         userName: userObj['username'],
         email: userObj.email,
@@ -21,6 +23,7 @@ async function createUser(userObj) {
         groups: []
     });
     let doesExist = await doesUserExist(user)
+    console.log(doesExist);
     if (!doesExist) {
         user.save()
         return user

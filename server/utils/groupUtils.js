@@ -1,5 +1,5 @@
 const Group = require('../models/group')
-
+const User = require('../models/user')
 
 async function doesGroupExist(groupObj) {
     let groupData = await Group.find({name : groupObj['name']})
@@ -19,10 +19,19 @@ async function createGroup(groupObj) {
     return null
 }
 
+async function addNewGroup(user,newGroup) {
+    await User.findOneAndUpdate({userName : user},{ "$push": { "groups": newGroup } })
+}
 
+async function getGroups(user) {
+    let groups = (await User.find({ userName: user }).select({ "_id": 0}).populate("groups").exec())[0]
+    return groups
+}
 
 
 module.exports = {
     createGroup,
-    doesGroupExist
+    doesGroupExist,
+    addNewGroup,
+    getGroups
 }
