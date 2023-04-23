@@ -28,10 +28,19 @@ async function getGroups(user) {
     return groups
 }
 
+async function addGroupToFavorite(userId, groupId) {
+    let favorite = await User.findByIdAndUpdate(
+        {_id: userId},
+        {$push: {favorites:groupId}}
+    )
+    return favorite
+}
+
 
 module.exports = {
     createGroup,
     doesGroupExist,
     addNewGroup,
-    getGroups
+    getGroups,
+    addGroupToFavorite
 }

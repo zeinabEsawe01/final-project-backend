@@ -21,6 +21,16 @@ router.get('/:user', async function (req,res) {
     res.send(groups)
 })
 
+router.put('/favorite/:userId',async function (req,res) {
+    let userId = req.params.userId
+    let {groupId} = req?.query 
+    let favorite = await groupUtils.addGroupToFavorite(userId, groupId)
 
+    if (favorite) {
+        res.status(201).send(favorite)
+    }else{
+        res.status(409).send(`Error`)
+    }
+})
 
 module.exports = router
