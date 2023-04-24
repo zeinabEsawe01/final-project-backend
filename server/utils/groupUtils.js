@@ -24,7 +24,7 @@ async function addNewGroup(user,newGroup) {
 }
 
 async function getGroups(user) {
-    let groups = (await User.find({ userName: user }).select({ "_id": 0}).populate("groups").exec())[0]
+    let groups = (await User.find({ userName: user }).select({ "_id": 0}).populate("groups").exec())[0].groups
     return groups
 }
 

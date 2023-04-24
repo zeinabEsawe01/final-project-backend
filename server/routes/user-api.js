@@ -9,14 +9,14 @@ router.post('/login',async (req, res) => {
       return res.status(401).send({ message: 'Invalid username or password' })
     }
     const accessToken = userUtils.generateAccessToken({...user})
-    res.status(201).send({ accessToken })
+    res.status(201).send({ accessToken, user })
 })
 
 router.post('/signup',async function (req,res) {
   let newUser = await userUtils.createUser(req.body)
   if (newUser) {
     const accessToken = generateAccessToken({...newUser})
-    res.status(201).send({ accessToken })
+    res.status(201).send({ accessToken, newUser })
   }else{
     res.status(409).send(`user is alraedy exist`)
   }
