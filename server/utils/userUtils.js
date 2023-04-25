@@ -14,10 +14,11 @@ async function doesUserExist(userObj) {
 
 
 async function createUser(userObj) {
+    console.log(userObj);
     const hashedPassword = await bcrypt.hash(userObj.password, 10)
     console.log(userObj);
     const user = new User({
-        userName: userObj['username'],
+        userName: userObj['userName'],
         email: userObj.email,
         password: hashedPassword,
         groups: [],

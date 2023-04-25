@@ -15,7 +15,7 @@ router.post('/login',async (req, res) => {
 router.post('/signup',async function (req,res) {
   let newUser = await userUtils.createUser(req.body)
   if (newUser) {
-    const accessToken = generateAccessToken({...newUser})
+    const accessToken = userUtils.generateAccessToken({...newUser})
     res.status(201).send({ accessToken, newUser })
   }else{
     res.status(409).send(`user is alraedy exist`)
