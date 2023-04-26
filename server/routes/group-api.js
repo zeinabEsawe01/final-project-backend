@@ -3,8 +3,8 @@ const groupUtils = require('../utils/groupUtils')
 const router = express.Router()
 
 
-router.post('/',async function (req,res) {
-    let user = 'bahjat9' // the logged in user
+router.post('/:user',async function (req,res) {
+    let user = 'yahya ameen'
     console.log(req.body);
     let newGroup = await groupUtils.createGroup(req.body)
     if (newGroup) {
@@ -16,9 +16,15 @@ router.post('/',async function (req,res) {
 })
 
 router.get('/:user', async function (req,res) {
-    let user = 'bahjat9' // the logged in user
+    let user = 'yahya ameen'
     let groups = await groupUtils.getGroups(user)
     res.send(groups)
+})
+
+router.get('/members/:GroupId', async function (req,res) {
+    let GroupId = req.params.GroupId
+    let members = await groupUtils.getMembers(GroupId)
+    res.send(members)
 })
 
 

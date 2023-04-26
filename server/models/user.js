@@ -17,7 +17,8 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 5,
   },
-  groups: [{ type: mongoose.Schema.Types.ObjectId, ref: 'group'}]
+  groups: [{ type: mongoose.Schema.Types.ObjectId, ref: 'group'}],
+  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'group'}]
 });
 
 const User = mongoose.model('User', userSchema);
