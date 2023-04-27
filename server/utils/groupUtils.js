@@ -33,17 +33,14 @@ async function getMembers(groupId) {
     return members
 }
 
+async function getPlaces(groupId) {
+    let places = (await Group.findById({ _id: groupId }).select({ "_id": 0}).populate("places").exec())[0].places
+    return places
+}
+
 async function updateGroup(user,groupId) {
     let group = await Group.findOneAndUpdate({ _id: groupId },{"$push":{"members":user}})
     return group
-}
-
-async function addGroupToFavorite(userId, groupId) {
-    let favorite = await User.findByIdAndUpdate(
-        {_id: userId},
-        {$push: {favorites:groupId}}
-    )
-    return favorite
 }
 
 
@@ -52,7 +49,6 @@ module.exports = {
     doesGroupExist,
     addNewGroup,
     getGroups,
-    addGroupToFavorite,
     getMembers,
     updateGroup
 }
