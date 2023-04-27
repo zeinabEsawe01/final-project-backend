@@ -51,4 +51,7 @@ router.put('/:groupId',async function (req,res) {
     }
 })
 
+router.post('/addMember', async (req, res) => {
+})
+
 module.exports = router
