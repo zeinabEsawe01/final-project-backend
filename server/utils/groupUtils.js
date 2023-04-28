@@ -25,13 +25,26 @@ async function addNewGroup(user,newGroup) {
 }
 
 async function getGroups(user) {
-    let groups = (await User.find({ userName: user }).select({ "_id": 0}).populate("groups").exec())[0]
+    let groups = (await User.find({ userName: user }).select({ "_id": 0}).populate("groups").exec())[0].groups
     return groups
 }
 
-async function getMembers(GroupId) {
-    let members = (await Group.find({ _id: GroupId }))
+async function getMembers(groupId) {
+    let members = (await Group.findById({ _id: groupId }).select({ "_id": 0}).populate("members").exec())[0].members
     return members
+}
+
+async function updateGroup(user,groupId) {
+    let group = await Group.findOneAndUpdate({ _id: groupId },{"$push":{"members":user}})
+    return group
+}
+
+async function addGroupToFavorite(userId, groupId) {
+    let favorite = await User.findByIdAndUpdate(
+        {_id: userId},
+        {$push: {favorites:groupId}}
+    )
+    return favorite
 }
 
 
@@ -40,5 +53,7 @@ module.exports = {
     doesGroupExist,
     addNewGroup,
     getGroups,
-    getMembers
+    addGroupToFavorite,
+    getMembers,
+    updateGroup
 }
