@@ -42,11 +42,30 @@ async function authenticateUser(username, password) {
     if (!isPasswordValid) {
       return null
     }
-    return { user }
+    return  user 
 }
 
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.JWT_SECRET)
+}
+
+async function addGroupToFavorite(userId, groupId, add) {
+    let favorite = {}
+    console.log(add);
+    if (add === "true") {
+          favorite = await User.findByIdAndUpdate(
+            {_id: userId},
+            {$push: {favorites:groupId}}
+        )
+    } else {
+        console.log("yy");
+         favorite = await User.findByIdAndUpdate(
+            {_id: userId},
+            {$pull: {favorites:groupId}}
+        )
+    }
+    
+    return favorite
 }
 
 // const authenticateUser = function (req, res, next) {
@@ -71,5 +90,6 @@ function generateAccessToken(user) {
 module.exports = {
     createUser,
     authenticateUser,
-    generateAccessToken
+    generateAccessToken,
+    addGroupToFavorite,
 }
