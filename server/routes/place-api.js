@@ -20,8 +20,9 @@ async function getPlaces(placesInfo) {
     return res.data
 }
 
-router.get('/',async function (req,res) {
-    let places =  (await getPlaces(req.body)).results
+router.post('/',async function (req,res) {
+    let placesData =  (await getPlaces(req.body)).results
+    const places = placeUtils.placeFormat(placesData)
     res.send(places)
 })
 
