@@ -16,7 +16,6 @@ async function doesUserExist(userObj) {
 async function createUser(userObj) {
     console.log(userObj);
     const hashedPassword = await bcrypt.hash(userObj.password, 10)
-    console.log(userObj);
     const user = new User({
         userName: userObj['userName'],
         email: userObj.email,
@@ -25,7 +24,6 @@ async function createUser(userObj) {
         favorites: []
     });
     let doesExist = await doesUserExist(user)
-    console.log(doesExist);
     if (!doesExist) {
         user.save()
         return user
@@ -44,16 +42,54 @@ async function authenticateUser(username, password) {
     if (!isPasswordValid) {
       return null
     }
-    return { user }
+    return  user 
 }
 
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.JWT_SECRET)
 }
 
+async function addGroupToFavorite(userId, groupId, add) {
+    let favorite = {}
+    console.log(add);
+    if (add === "true") {
+          favorite = await User.findByIdAndUpdate(
+            {_id: userId},
+            {$push: {favorites:groupId}}
+        )
+    } else {
+        console.log("yy");
+         favorite = await User.findByIdAndUpdate(
+            {_id: userId},
+            {$pull: {favorites:groupId}}
+        )
+    }
+    
+    return favorite
+}
+
+// const authenticateUser = function (req, res, next) {
+//     const header = req.headers["authorization"];
+//     const token = header && header.split(" ")[1];
+//     if (!token) {
+//       return res.status(401).send({ message: "Unauthorized" });
+//     }
+//     try {
+//       jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+//         if (err) {
+//           return res.status(401).json({ message: "Unauthorized" });
+//         }
+//         req.user = user;
+//         next();
+//       });
+//     } catch (err) {
+//       return res.status(401).json({ message: "Unauthorized" });
+//     }
+//   };
 
 module.exports = {
     createUser,
     authenticateUser,
-    generateAccessToken
+    generateAccessToken,
+    addGroupToFavorite,
 }
