@@ -5,7 +5,6 @@ const router = express.Router()
 
 router.post('/:user',async function (req,res) {
     let user = req.params.user
-    console.log(req.body);
     let newGroup = await groupUtils.createGroup(req.body)
     if (newGroup) {
         groupUtils.addNewGroup(user,newGroup)
@@ -31,7 +30,7 @@ router.get('/groupMembers/:groupId', async function (req,res) {
 
 router.get('/groupPlaces/:groupId', async function (req,res) {
     let groupId = req.params.groupId
-    let places = await groupUtils.getMembers(groupId)
+    let places = await groupUtils.getPlaces(groupId)
     res.send(places)
 })
 

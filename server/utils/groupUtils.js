@@ -50,5 +50,6 @@ module.exports = {
     addNewGroup,
     getGroups,
     getMembers,
-    updateGroup
+    updateGroup,
+    getPlaces
 }
