@@ -1,6 +1,7 @@
 const express = require('express')
 const groupUtils = require('../utils/groupUtils')
 const User = require('../models/user')
+const Group = require('../models/group')
 const router = express.Router()
 
 
@@ -48,7 +49,7 @@ router.put('/:groupId',async function (req,res) {
     }
 })
 
-router.post('/addMember', async (req, res) => {
+router.post('/groups/addMember', async (req, res) => {
     const { groupId, userId } = req.body;
   console.log("hhhh");
     try {
@@ -61,14 +62,14 @@ router.post('/addMember', async (req, res) => {
   
       // Find the user by ID
       const user = await User.findById(userId);
-  
       if (!user) {
         return res.status(404).send('User not found');
       }
   
       // Add the user ID to the group's list of members
-      group.members.push(userId);
-      await group.save();
+      await Group.findOneAndUpdate({ _id: groupId },{"$push":{"members":user}})
+    //   group.members.push(userId);
+    //   await group.save();
   
       res.send(group);
     } catch (err) {

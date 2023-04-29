@@ -19,7 +19,8 @@ async function createGroup(groupObj) {
     return null
 }
 async function getGroup(groupId) {
-    let group = (await Group.findById(groupId).select({ "_id": 0}).populate("groups").exec())[0].groups
+    let group = await Group.findById({_id:groupId})
+    console.log(group);
     return group
 }
 
