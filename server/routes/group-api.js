@@ -46,4 +46,17 @@ router.put('/:groupId',async function (req,res) {
     }
 })
 
+router.put('/voting/:userId',async function (req,res) {
+    let userId = req.params.userId
+    let groupData = req.body
+    let {add} = req?.query 
+    let group = await groupUtils.updateGroupVoting(userId,groupData, add)
+
+    if (group) {
+        res.status(201).send(group)
+    }else{
+        res.status(409).send(`Error`)
+    }
+})
+
 module.exports = router

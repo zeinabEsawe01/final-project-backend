@@ -39,8 +39,27 @@ async function getPlaces(groupId) {
     return places
 }
 
-async function updateGroup(user,groupId) {
+async function updateGroup(user, groupId ) {
     let group = await Group.findOneAndUpdate({ _id: groupId },{"$push":{"members":user}})
+    return group
+}
+
+async function updateGroupVoting(userId,groupData, add ) {
+    let group = {}
+    if (add === "true"){
+        group = await Group.findOneAndUpdate(
+            { 'voting.placeId': groupData.voting.placeId },
+            { $set: { 'voting.$.likes': groupData.voting.likes},$push: { 'voting.$.userVotingId': userId } },
+            { new: true }
+          )
+    } else {
+        group = await Group.findOneAndUpdate(
+            { 'voting.placeId': groupData.voting.placeId },
+            { $set: { 'voting.$.likes': groupData.voting.likes},$pull: { 'voting.$.userVotingId': userId } },
+            { new: true }
+          )
+   }
+    
     return group
 }
 
@@ -52,5 +71,6 @@ module.exports = {
     getGroups,
     getMembers,
     updateGroup,
-    getPlaces
+    getPlaces,
+    updateGroupVoting
 }

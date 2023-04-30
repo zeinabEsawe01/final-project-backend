@@ -51,14 +51,12 @@ function generateAccessToken(user) {
 
 async function addGroupToFavorite(userId, groupId, add) {
     let favorite = {}
-    console.log(add);
     if (add === "true") {
           favorite = await User.findByIdAndUpdate(
             {_id: userId},
             {$push: {favorites:groupId}}
         )
     } else {
-        console.log("yy");
          favorite = await User.findByIdAndUpdate(
             {_id: userId},
             {$pull: {favorites:groupId}}
