@@ -49,9 +49,8 @@ router.put('/:groupId',async function (req,res) {
     }
 })
 
-router.post('/groups/addMember', async (req, res) => {
+router.put('/groups/addMember', async (req, res) => {
     const { groupId, userId } = req.body;
-  console.log("hhhh");
     try {
       // Find the group by ID
       const group = await groupUtils.getGroup(groupId);
@@ -62,15 +61,21 @@ router.post('/groups/addMember', async (req, res) => {
   
       // Find the user by ID
       const user = await User.findById(userId);
+      console.log(user);
       if (!user) {
         return res.status(404).send('User not found');
       }
   
+      let isExist = groupUtils.isMemmberExist(group , user.userName);
+      
       // Add the user ID to the group's list of members
-      await Group.findOneAndUpdate({ _id: groupId },{"$push":{"members":user}})
-    //   group.members.push(userId);
+      if (isExist) {
+        return res.status(404).send('User already exist');
+      }
+      await Group.findOneAndUpdate({ _id: groupId },{"$push":{"members":user.userName}})
+    
     //   await group.save();
-  
+    
       res.send(group);
     } catch (err) {
       console.error(err);

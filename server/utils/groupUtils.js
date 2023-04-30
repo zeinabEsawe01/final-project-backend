@@ -20,8 +20,14 @@ async function createGroup(groupObj) {
 }
 async function getGroup(groupId) {
     let group = await Group.findById({_id:groupId})
-    console.log(group);
     return group
+}
+ 
+function isMemmberExist(group , userName) {
+    if(group.members.includes(userName)) {
+        return true
+    }
+     return false
 }
 
 async function addNewGroup(user,newGroup) {
@@ -57,5 +63,6 @@ module.exports = {
     addNewGroup,
     getGroups,
     getMembers,
-    updateGroup
+    updateGroup,
+    isMemmberExist
 }
