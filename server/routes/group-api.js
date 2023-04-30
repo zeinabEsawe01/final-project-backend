@@ -85,7 +85,8 @@ router.put('/groups/addMember', async (req, res) => {
         return res.status(404).send('User already exist');
       }
       await Group.findOneAndUpdate({ _id: groupId },{"$push":{"members":user.userName}})
-    
+      await User.findOneAndUpdate({ _id: userId },{"$push":{"groups":groupId}})
+
     //   await group.save();
     
       res.send(group);
