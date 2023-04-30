@@ -68,6 +68,13 @@ async function addGroupToFavorite(userId, groupId, add) {
     return favorite
 }
 
+async function getUser(userId) {
+    let user = await User.findById({_id: userId})
+    console.log(user);
+    return user
+
+}
+
 // const authenticateUser = function (req, res, next) {
 //     const header = req.headers["authorization"];
 //     const token = header && header.split(" ")[1];
@@ -92,4 +99,5 @@ module.exports = {
     authenticateUser,
     generateAccessToken,
     addGroupToFavorite,
+    getUser
 }
