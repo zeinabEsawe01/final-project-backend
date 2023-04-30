@@ -18,6 +18,17 @@ async function createGroup(groupObj) {
     }
     return null
 }
+async function getGroup(groupId) {
+    let group = await Group.findById({_id:groupId})
+    return group
+}
+ 
+function isMemmberExist(group , userName) {
+    if(group.members.includes(userName)) {
+        return true
+    }
+     return false
+}
 
 async function addNewGroup(user,newGroup) {
     
@@ -67,10 +78,12 @@ async function updateGroupVoting(userId,groupData, add ) {
 module.exports = {
     createGroup,
     doesGroupExist,
+    getGroup,
     addNewGroup,
     getGroups,
     getMembers,
     updateGroup,
     getPlaces,
-    updateGroupVoting
+    updateGroupVoting,
+    isMemmberExist
 }

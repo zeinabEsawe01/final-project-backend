@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const groupSchema = new Schema({
   name: String,
   kind: String,
-  members: [{ type: Schema.Types.ObjectId, ref: "user" }],
+  members: [],
   places: [{ type: Schema.Types.ObjectId, ref: "place" }],
   voting: [
     {
