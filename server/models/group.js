@@ -13,6 +13,7 @@ const groupSchema = new Schema({
       usersVotingId: [],
     },
   ],
+  admin: String
 });
 
 
