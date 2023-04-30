@@ -1,5 +1,7 @@
 const express = require('express')
 const groupUtils = require('../utils/groupUtils')
+const User = require('../models/user')
+const Group = require('../models/group')
 const router = express.Router()
 
 
@@ -58,5 +60,6 @@ router.put('/voting/:userId',async function (req,res) {
         res.status(409).send(`Error`)
     }
 })
+
 
 module.exports = router
