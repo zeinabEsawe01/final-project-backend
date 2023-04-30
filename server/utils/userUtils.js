@@ -14,7 +14,6 @@ async function doesUserExist(userObj) {
 
 
 async function createUser(userObj) {
-    console.log(userObj);
     const hashedPassword = await bcrypt.hash(userObj.password, 10)
     const user = new User({
         userName: userObj['userName'],

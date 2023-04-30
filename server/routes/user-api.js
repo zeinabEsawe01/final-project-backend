@@ -14,6 +14,7 @@ router.post('/login',async (req, res) => {
 
 router.post('/signup',async function (req,res) {
   let user = await userUtils.createUser(req.body)
+  console.log(user);
   if (user) {
     const accessToken = userUtils.generateAccessToken({...user})
     res.status(201).send({ accessToken, user })

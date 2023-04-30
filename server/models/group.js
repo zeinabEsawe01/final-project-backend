@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const groupSchema  = new Schema({
     name : String,
     kind : String,
-    members : [{type: Schema.Types.ObjectId, ref:"user"}],
+    members : [String],
     places : [{type: Schema.Types.ObjectId, ref:"place"}]
 })
 

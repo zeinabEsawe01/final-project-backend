@@ -24,6 +24,11 @@ async function addNewGroup(user,newGroup) {
     await User.findOneAndUpdate({userName : user},{ "$push": { "groups": newGroup } })
 }
 
+async function updateGroupPlaces(groupId,place) {
+    let group = await Group.findByIdAndUpdate({ _id: `${groupId}` },{"$push":{"places":place}})
+    return group
+}
+
 async function getGroups(user) {
     let groups = (await User.find({ userName: user }).select({ "_id": 0}).populate("groups").exec())[0].groups
     return groups
@@ -51,5 +56,6 @@ module.exports = {
     addNewGroup,
     getGroups,
     getMembers,
-    updateGroup
+    updateGroup,
+    updateGroupPlaces
 }
