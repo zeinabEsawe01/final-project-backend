@@ -50,14 +50,12 @@ function generateAccessToken(user) {
 
 async function addGroupToFavorite(userId, groupId, add) {
     let favorite = {}
-    console.log(add);
     if (add === "true") {
           favorite = await User.findByIdAndUpdate(
             {_id: userId},
             {$push: {favorites:groupId}}
         )
     } else {
-        console.log("yy");
          favorite = await User.findByIdAndUpdate(
             {_id: userId},
             {$pull: {favorites:groupId}}
@@ -65,6 +63,13 @@ async function addGroupToFavorite(userId, groupId, add) {
     }
     
     return favorite
+}
+
+async function getUser(userId) {
+    let user = await User.findById({_id: userId})
+    console.log(user);
+    return user
+
 }
 
 // const authenticateUser = function (req, res, next) {
@@ -91,4 +96,5 @@ module.exports = {
     authenticateUser,
     generateAccessToken,
     addGroupToFavorite,
+    getUser
 }

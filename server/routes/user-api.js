@@ -35,4 +35,9 @@ router.put('/:userId',async function (req,res) {
   }
 })
 
+router.get('/users/:userId' ,async function(req, res){
+  let userId = req.params.userId
+  let user = await userUtils.getUser(userId)
+  res.status(200).send(user)
+})
 module.exports = router
