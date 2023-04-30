@@ -10,7 +10,7 @@ const groupSchema = new Schema({
     {
       placeId: String,
       likes: Number,
-      usersVotingId: [],
+      usersVotingNames: [],
     },
   ],
   admin: String
