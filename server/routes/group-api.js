@@ -62,7 +62,7 @@ router.put('/voting/:userId',async function (req,res) {
 })
 
 router.put('/groups/addMember', async (req, res) => {
-  const { groupId, userId } = req.body;
+  const { groupId, username } = req.body;
   try {
     // Find the group by ID
     const group = await groupUtils.getGroup(groupId);
@@ -72,7 +72,9 @@ router.put('/groups/addMember', async (req, res) => {
     }
 
     // Find the user by ID
-    const user = await User.findById(userId);
+    const user = await User.findOne({
+        userName:username
+      })
     console.log(user);
     if (!user) {
       return res.status(404).send('User not found');
@@ -85,7 +87,7 @@ router.put('/groups/addMember', async (req, res) => {
       return res.status(404).send('User already exist');
     }
     await Group.findOneAndUpdate({ _id: groupId },{"$push":{"members":user.userName}})
-    await User.findOneAndUpdate({ _id: userId },{"$push":{"groups":groupId}})
+    await User.findOneAndUpdate({ userName: username },{"$push":{"groups":groupId}})
 
   //   await group.save();
   
