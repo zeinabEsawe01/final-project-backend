@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const userUtils = require('../utils/userUtils')
-
+// router.use(userUtils.authenticateUserToken)
 router.post('/login',async (req, res) => {
     const { username, password } = req.body
     const user = await userUtils.authenticateUser(username, password)
@@ -23,7 +23,7 @@ router.post('/signup',async function (req,res) {
   }
 })
 
-router.put('/:userId',async function (req,res) {
+router.put('/:userId', userUtils.authenticateUserToken, async function (req,res) {
   let userId = req.params.userId
   let {groupId, add} = req?.query 
   let result = {}

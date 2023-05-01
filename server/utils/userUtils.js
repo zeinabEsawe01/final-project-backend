@@ -80,24 +80,24 @@ async function removeGroupFromUser(userId, groupId) {
     return result
 }
 
-// const authenticateUser = function (req, res, next) {
-//     const header = req.headers["authorization"];
-//     const token = header && header.split(" ")[1];
-//     if (!token) {
-//       return res.status(401).send({ message: "Unauthorized" });
-//     }
-//     try {
-//       jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
-//         if (err) {
-//           return res.status(401).json({ message: "Unauthorized" });
-//         }
-//         req.user = user;
-//         next();
-//       });
-//     } catch (err) {
-//       return res.status(401).json({ message: "Unauthorized" });
-//     }
-//   };
+const authenticateUserToken = function (req, res, next) {
+    const header = req.headers["authorization"];
+    const token = header && header.split(" ")[1];
+    if (!token) {
+      return res.status(401).send({ message: "Unauthorized" });
+    }
+    try {
+      jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+          return res.status(401).json({ message: "Unauthorized" });
+        }
+        req.user = user;
+        next();
+      });
+    } catch (err) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+  };
 
 module.exports = {
     createUser,
@@ -105,5 +105,6 @@ module.exports = {
     generateAccessToken,
     addGroupToFavorite,
     getUser,
-    removeGroupFromUser
+    removeGroupFromUser,
+    authenticateUserToken
 }

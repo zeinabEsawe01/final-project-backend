@@ -36,7 +36,8 @@ async function addNewGroup(user,newGroup) {
 }
 
 async function updateGroupPlaces(groupId,place) {
-    let group = await Group.findByIdAndUpdate({ _id: `${groupId}` },{"$push":{"places":place}})
+    const placeVoting = {placeId : place._id, likes: 0, usersVotingNames : []}
+    let group = await Group.findByIdAndUpdate({ _id: `${groupId}` },{"$push":{"places":place,"voting":placeVoting}})
     return group
 }
 
@@ -51,7 +52,8 @@ async function getMembers(groupId) {
 }
 
 async function getPlaces(groupId) {
-    let places = (await Group.findById({ _id: groupId }).select({ "_id": 0}).populate("places").exec())[0].places
+    let places = (await Group.findById({ _id: groupId }).select({ "_id": 0}).populate("places").exec()).places
+    console.log(places);
     return places
 }
 

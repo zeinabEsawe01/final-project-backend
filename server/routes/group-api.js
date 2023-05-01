@@ -32,6 +32,7 @@ router.get('/groupMembers/:groupId', async function (req,res) {
 
 router.get('/groupPlaces/:groupId', async function (req,res) {
     let groupId = req.params.groupId
+    console.log(groupId);
     let places = await groupUtils.getPlaces(groupId)
     res.send(places)
 })
