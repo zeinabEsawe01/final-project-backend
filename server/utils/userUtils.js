@@ -72,6 +72,14 @@ async function getUser(userId) {
 
 }
 
+async function removeGroupFromUser(userId, groupId) {
+    let result = await User.findByIdAndUpdate(
+        {_id: userId},
+        {$pull: {groups:groupId}}
+    )
+    return result
+}
+
 // const authenticateUser = function (req, res, next) {
 //     const header = req.headers["authorization"];
 //     const token = header && header.split(" ")[1];
@@ -96,5 +104,6 @@ module.exports = {
     authenticateUser,
     generateAccessToken,
     addGroupToFavorite,
-    getUser
+    getUser,
+    removeGroupFromUser
 }

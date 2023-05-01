@@ -96,12 +96,10 @@ router.put('/groups/addMember', async (req, res) => {
   }
 });
 
-
-router.put('/voting/:userId',async function (req,res) {
-    let userId = req.params.userId
-    let groupData = req.body
-    let {add} = req?.query 
-    let group = await groupUtils.updateGroupVoting(userId,groupData, add)
+router.put('/members/:groupId',async function (req,res) {
+    let groupId = req.params.groupId
+    let {userName} = req?.query
+    let group = await groupUtils.updateGroupMembers(userName,groupId)
 
     if (group) {
         res.status(201).send(group)
@@ -110,20 +108,14 @@ router.put('/voting/:userId',async function (req,res) {
     }
 })
 
-
-router.put('/voting/:userId',async function (req,res) {
-    let userId = req.params.userId
-    let groupData = req.body
-    let {add} = req?.query 
-    let group = await groupUtils.updateGroupVoting(userId,groupData, add)
-
-    if (group) {
-        res.status(201).send(group)
+router.delete('/:groupId',async function (req,res) {
+    let groupId = req.params.groupId
+    let result = await groupUtils.deleteGroup(groupId)
+    if (result) {
+        res.status(204).send("the group is deleted")
     }else{
-        res.status(409).send(`Error`)
+        res.status(404).send("group is not found")
     }
 })
-
-
 
 module.exports = router

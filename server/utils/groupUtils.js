@@ -79,6 +79,19 @@ async function updateGroupVoting(userId,groupData, add ) {
     return group
 }
 
+async function deleteGroup(groupId ) {
+    let result = await Group.deleteOne({ _id: groupId });
+    return result
+}
+
+async function updateGroupMembers(userName, groupId) {
+    let result = await Group.findByIdAndUpdate(
+        {_id: groupId},
+        {$pull: {members:userName}}
+    )
+    return result
+}
+
 
 module.exports = {
     createGroup,
@@ -91,5 +104,7 @@ module.exports = {
     updateGroupPlaces,
     getPlaces,
     updateGroupVoting,
-    isMemmberExist
+    isMemmberExist,
+    deleteGroup,
+    updateGroupMembers
 }

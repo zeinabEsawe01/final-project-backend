@@ -26,10 +26,14 @@ router.post('/signup',async function (req,res) {
 router.put('/:userId',async function (req,res) {
   let userId = req.params.userId
   let {groupId, add} = req?.query 
-  let favorite = await userUtils.addGroupToFavorite(userId, groupId, add)
-
-  if (favorite) {
-      res.status(201).send(favorite)
+  let result = {}
+  if (add !== undefined) {
+    result = await userUtils.addGroupToFavorite(userId, groupId, add)
+  } else {
+    result = await userUtils.removeGroupFromUser(userId, groupId)
+  }
+  if (result) {
+      res.status(201).send(result)
   }else{
       res.status(409).send(`Error`)
   }
