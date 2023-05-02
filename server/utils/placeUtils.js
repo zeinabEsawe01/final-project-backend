@@ -6,7 +6,7 @@ const PHOTOS_API = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=40
 
 function createPlace(placeObj) {
     let newPlace = new Place({
-        img: placeObj.photos,
+        img: placeObj.img,
         title: placeObj.title,
         description: placeObj.description,
         placeRatings: []
@@ -28,7 +28,7 @@ function placeFormat(placesData) {
     let places = []
     for (const place of placesData) {
         let p = {
-            photos : place.photos ? getCustomPhotoUrl(place.photos[0].photo_reference) : null,
+            img : place.photos ? getCustomPhotoUrl(place.photos[0].photo_reference) : null,
             title : place.name,
             description : place.vicinity
         }

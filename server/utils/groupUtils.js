@@ -37,7 +37,8 @@ async function addNewGroup(user,newGroup) {
 
 async function updateGroupPlaces(groupId,place) {
     const placeVoting = {placeId : place._id, likes: 0, usersVotingNames : []}
-    let group = await Group.findByIdAndUpdate({ _id: `${groupId}` },{"$push":{"places":place,"voting":placeVoting}})
+    let group = await Group.findByIdAndUpdate({ _id: `${groupId}` },{"$push":{"places":place}})
+    let group1 = await Group.findByIdAndUpdate({ _id: `${groupId}` },{"$push":{"voting":placeVoting}})
     return group
 }
 
@@ -62,18 +63,18 @@ async function updateGroup(user, groupId ) {
     return group
 }
 
-async function updateGroupVoting(userId,groupData, add ) {
+async function updateGroupVoting(userName,groupData, add ) {
     let group = {}
     if (add === "true"){
         group = await Group.findOneAndUpdate(
-            { 'voting.placeId': groupData.voting.placeId },
-            { $set: { 'voting.$.likes': groupData.voting.likes},$push: { 'voting.$.userVotingId': userId } },
+            { _id: groupData._id, 'voting.placeId': groupData.voting.placeId },
+            { $set: { 'voting.$.likes': groupData.voting.likes},$push: { 'voting.$.userVotingNames': userName } },
             { new: true }
         )
     } else {
         group = await Group.findOneAndUpdate(
             { 'voting.placeId': groupData.voting.placeId },
-            { $set: { 'voting.$.likes': groupData.voting.likes},$pull: { 'voting.$.userVotingId': userId } },
+            { $set: { 'voting.$.likes': groupData.voting.likes},$pull: { 'voting.$.userVotingNames': userName } },
             { new: true }
         )
 }
